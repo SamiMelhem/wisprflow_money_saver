@@ -1,7 +1,7 @@
-import mss
-import pygetwindow as gw
-from PIL import Image
-import time
+from mss import mss
+from pygetwindow import getAllWindows, getActiveWindow
+from PIL.Image import frombytes
+from time import sleep
 
 class WindowCapture:
     def __init__(self):
@@ -13,7 +13,7 @@ class WindowCapture:
         that contain 'Wispr Flow' in the title.
         """
         # Get all of the windows on the screen
-        windows = gw.getAllWindows()
+        windows = getAllWindows()
 
         for window in windows:
             if window.title == "Hub": # This is WisprFlow's window title
@@ -28,18 +28,18 @@ class WindowCapture:
         Return: PIL Image object
         """
         was_minimized = self.wisprflow_window.isMinimized
-        orig_active = gw.getActiveWindow()
+        orig_active = getActiveWindow()
 
         if was_minimized:
             self.wisprflow_window.restore()
-            time.sleep(0.012)
+            sleep(0.012)
 
         self.wisprflow_window.maximize()
 
-        with mss.mss() as sct:
+        with mss() as sct:
             monitor = sct.monitors[1]
             screenshot = sct.grab(monitor)
-            img = Image.frombytes("RGB", screenshot.size, screenshot.bgra, "raw", "BGRX")
+            img = frombytes("RGB", screenshot.size, screenshot.bgra, "raw", "BGRX")
         
         if was_minimized:
             self.wisprflow_window.minimize()
