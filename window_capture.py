@@ -1,7 +1,6 @@
 from mss import mss
-from pygetwindow import getAllWindows, getActiveWindow
+from pygetwindow import getAllWindows
 from PIL.Image import frombytes
-from time import sleep
 
 class WindowCapture:
     def __init__(self):
@@ -27,13 +26,7 @@ class WindowCapture:
         Capture a screenshot of the WisprFlow window.
         Return: PIL Image object
         """
-        was_minimized = self.wisprflow_window.isMinimized
-        orig_active = getActiveWindow()
-
-        if was_minimized:
-            self.wisprflow_window.restore()
-            sleep(0.012)
-
+        self.wisprflow_window.activate()
         self.wisprflow_window.maximize()
 
         with mss() as sct:
@@ -41,14 +34,7 @@ class WindowCapture:
             screenshot = sct.grab(monitor)
             img = frombytes("RGB", screenshot.size, screenshot.bgra, "raw", "BGRX")
         
-        if was_minimized:
-            self.wisprflow_window.minimize()
-        
-        if orig_active:
-            try:
-                orig_active.activate()
-            except:
-                pass
+        self.wisprflow_window.minimize()
 
         return img
     
@@ -62,7 +48,7 @@ class WindowCapture:
         right_start = int(width * 0.6825)
         top_start = int(height * 0.13)
         right_end = int(width * 0.83)
-        region_height = int(height * 0.03)
+        region_height = int(height * 0.1)
 
         # Crop the image
         region = img.crop((
@@ -91,10 +77,11 @@ def test_window_capture():
         region = capture.capture_top_right_region(screenshot)
 
         # Save for debugging
-        region.save("stats.png")
-        print("Stats region saved to stats.png")
+        filename = "stats.png"
+        region.save(filename)
+        print(f"Stats region saved to {filename}")
         
-        return region
+        return filename
 
     print("WisprFlow window not found.")
     return None

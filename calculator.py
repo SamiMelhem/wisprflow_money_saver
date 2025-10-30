@@ -169,23 +169,13 @@ class SavingsCalculator:
         
         return "\n".join(output)
 
-def test_calculator():
+def test_calculator(words_spoken, speaking_wpm, typing_wpm, subscription_type, hourly_rate, daily_words):
     """
     Test the savings calculator with sample data.
     """
     print("🧮 Testing Savings Calculator...")
     
     calculator = SavingsCalculator()
-    
-    # Test data (similar to your WisprFlow metrics)
-    words_spoken = 372
-    speaking_wpm = 124
-    typing_wpm = 90
-    subscription_type = 'pro_monthly'
-    
-    # Calculate savings with $100k salary ($48.08/hour)
-    hourly_rate = 50.49  # $105k salary converted to hourly
-    daily_words = 500  # Assume 500 words per day usage
     
     results = calculator.calculate_complete_savings(
         words_spoken, speaking_wpm, typing_wpm, subscription_type, hourly_rate, daily_words
@@ -206,4 +196,11 @@ def test_calculator():
     return results
 
 if __name__ == "__main__":
-    test_calculator()
+    test_calculator(
+        words_spoken = 372,
+        speaking_wpm = 124,
+        typing_wpm = 90,
+        subscription_type = 'pro_monthly',
+        hourly_rate = 50.49,
+        daily_words = 500
+    )
