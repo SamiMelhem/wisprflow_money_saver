@@ -12,14 +12,14 @@ if __name__ == "__main__":
 
     # Load inputs from JSON file, or prompt user if file doesn't exist
     try:
-        with open('inputs.json', 'r') as f:
+        with open('computer_inputs.json', 'r') as f:
             inputs = load(f)
         
         typing_wpm = inputs['typing_wpm']
         subscription_type = inputs['subscription_type']
         hourly_rate = inputs['hourly_rate']
         daily_words = inputs['daily_words']
-        print("Using inputs from inputs.json")
+        print("Using inputs from computer_inputs.json")
 
     except FileNotFoundError:
         print("inputs.json not found. Please enter your data manually.")
@@ -36,3 +36,23 @@ if __name__ == "__main__":
         hourly_rate = hourly_rate,
         daily_words = daily_words
     )
+
+    # Mobile inputs
+    with open('mobile_inputs.json', 'r') as f:
+        inputs = load(f)
+    
+    typing_wpm = inputs['typing_wpm']
+    subscription_type = inputs['subscription_type']
+    hourly_rate = inputs['hourly_rate']
+    daily_words = inputs['daily_words']
+    print("Using inputs from mobile_inputs.json")
+
+    test_calculator(
+        words_spoken = 810,
+        speaking_wpm = 116,
+        typing_wpm = typing_wpm,
+        subscription_type = subscription_type,
+        hourly_rate = hourly_rate,
+        daily_words = daily_words
+    )
+        

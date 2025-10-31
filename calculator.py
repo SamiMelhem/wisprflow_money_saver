@@ -47,7 +47,7 @@ class SavingsCalculator:
             'roi_percentage': roi_percentage,
         }
     
-    def calculate_complete_savings(self, words_spoken, speaking_wpm, typing_wpm, subscription_type, hourly_rate=25.0, daily_words=None):
+    def calculate_complete_savings(self, words_spoken, speaking_wpm, typing_wpm, subscription_type, hourly_rate, daily_words):
         """
         Calculate complete savings (time + cost) for a single session and annual projections.
         
@@ -143,8 +143,8 @@ class SavingsCalculator:
             output.append(f"   Value saved per word: ${summary['value_saved_per_word']:.6f}")
             
             # Calculate daily requirements
-            daily_words = summary['words_to_break_even'] / 30
-            daily_minutes = summary['minutes_to_break_even'] / 30
+            daily_words = summary['words_to_break_even'] / (365.25/12)
+            daily_minutes = summary['minutes_to_break_even'] / (365.25/12)
             output.append(f"   Daily requirement: {daily_words:.0f} words ({daily_minutes:.1f} minutes)")
         else:
             output.append(f"   ⚠️ Speaking slower than typing - cannot break even")
